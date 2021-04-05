@@ -44,7 +44,7 @@ Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.
 
 cocos2d-x C++環境架設就是這麼難用  
 
-###備註
+### 備註
 [1] 在CMD輸入cocos new -h可以看到cocos new參數詳細的用途, 寫得很詳細這邊就不多加補充
 
 ## 1. 輸出圖片
