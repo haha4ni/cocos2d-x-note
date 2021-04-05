@@ -3,7 +3,7 @@
 ## 介紹
 
 
-## 0. 事前準備 & Hello World
+## 0. 事前準備
 
 ### 準備工具
 
@@ -36,7 +36,7 @@ cocos new Hello -l cpp -p com.helloworld -d \Users\%username%\Desktop <sup>[1]</
 建立好的專案沒有VS的檔案可以用，進到專案目錄的proj.win32資料夾  
 在CMD裡面輸入cmake .. -A win32可以編譯出VS的專案檔sln  
 
-5. 專案編譯  
+### Hello World
 進入專案後直接編譯完後會發生錯誤，會看到  
 Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.  
 原因是要要設定開始的program，把圖中該檔案右鍵點選set as startup project  
