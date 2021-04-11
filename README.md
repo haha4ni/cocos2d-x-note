@@ -63,7 +63,40 @@ cocos2d-x C++環境架設就是這麼難用
 
 
 
-## 基本框架
+## 1. 框架建構
+上一章節我們單純執行官方寫好的Hello World 這一章節要加入一個角色進去我們的遊戲裡，並把整個環境整頓好
+
+###加入角色
+在專案主目錄中的.\Resources是預設的資源讀取路徑 Visual Studio如何管理資源路徑這邊就不提了
+先把我們要加入的角上塞進資料夾裡
+接著去找bool HelloWorld::init()這個函式把裡面的內容移除並加入一個sprite進去
+```
+bool HelloWorld::init()
+{
+    // 確認有無初始化過Scene
+    if ( !Scene::init() )
+    {
+        return false;
+    }
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    Sprite* hero = Sprite::create("hero.png");
+    hero->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    this->addChild(hero, 0);
+}
+```
+執行後的結果如附圖
+
+### 類別關係
+看到這段Code會三個很陌生的類別，分別是Director、Scene以及Sprite
+在往下推進前，我們要先搞懂此引擎的最基本類別關係
+
+
+
+
+
 雖然很想直接開始寫程式，但寫之前還是有些東西必須要先知道
 至少你要知道你要從哪個點開始寫，就好像C語言要從main()開始一樣，Cocos2d-x只是更複雜了一點點點
 ### 入口
@@ -108,13 +141,27 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 
 ### 結構
-看到這段Code會開始想Director跟Scene是什麼鬼東西
+此引擎的結構是由一個導演(Director)來控制切換不同場景(Scene)，某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個角色Sprite
+
+
+看到這段Code會開始想Director跟Scene是什麼鬼東西  
 在開始製作前，我們要先搞懂此引擎的最基本結構關係，不然無法前進  
-把遊戲想像成有個導演在作畫，作畫要把圖層分明確後續處理才會輕鬆
-分別是Director、Scene、Layer、Sprite
+把遊戲想像成有個導演(Director)在作畫，作畫要把圖層(Scene、Layer、Sprite)職責分配明確 後續處理才會輕鬆  
+整個框架會長得像如附圖這樣 從下到上介紹回去
 
 
+#### Sprite
 
+
+#### Layer
+
+
+#### Scene
+一個遊戲可以由多個Scene組成，他可以是主畫面選單、遊戲畫面、遊戲結束之類大方向的類型
+由Director去切換要使用哪一個Scene
+
+#### Director
+負責整個遊戲運鏡，可以知道一個遊戲只有一個Director，負責控制遊戲幀數、解析度等等相關設定
 
 
 
@@ -136,16 +183,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 
 
-#### Layer
 
 
-#### Scene
-一個遊戲可以由多個Scene組成，他可以是主畫面選單、遊戲畫面、遊戲結束之類大方向的類型
-由Director去切換要使用哪一個Scene
 
-#### Director
-負責整個遊戲運鏡，可以知道一個遊戲只有一個Director，負責控制遊戲幀數、解析度等等相關設定
+
+
+
+
+
+### 代碼
+
+此章節會說明這些檔案的用途，以及一個修改一些碼讓我們可以自己輸出一張圖片，以感受一下檔案之間的關係
+我們只要先關注附圖上面中的AppDelegate與HelloWorldScene就行了
+
+## 2. Scene與Layer
 ## 3. 按鍵控制
 ## 4. 計時器
 ## 5. 動畫
 ## 6. 碰撞
+
