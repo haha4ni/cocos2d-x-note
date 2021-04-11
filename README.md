@@ -1,4 +1,4 @@
-# Cocos2d-x
+# Cocos2d-x 4.0
 
 ## 介紹
 在學這個引擎的時候前期很痛苦，
@@ -41,24 +41,110 @@ cocos new Hello -l cpp -p com.helloworld -d \Users\%username%\Desktop <sup>[1]</
 建立好的專案沒有VS的檔案可以用，進到專案目錄的proj.win32資料夾  
 在CMD裡面輸入cmake .. -A win32可以編譯出VS的專案檔sln  
 
-### Hello World
-進入專案後直接編譯完後會發生錯誤，會看到  
+5. 進入專案並編譯後會發生錯誤，會看到  
 Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.  
 原因是要要設定開始的program，把圖中該檔案右鍵點選set as startup project  
-接著重新編譯一次就完成環境架設了，你會看到圖中的畫面  
+接著重新編譯一次就正式完成環境架設了  
+
+### Hello World
+你會看到圖中的畫面  
+
 
 cocos2d-x C++環境架設就是這麼難用  
 
 ### 備註
 [1] 在CMD輸入cocos new -h可以看到cocos new參數詳細的用途, 寫得很詳細這邊就不多加補充
 
-## 1. 組成元素
-此引擎的class組成分成五大塊，分別是Director、Scene
+
+
+
+
+
+
+
+
+## 基本框架
+雖然很想直接開始寫程式，但寫之前還是有些東西必須要先知道
+至少你要知道你要從哪個點開始寫，就好像C語言要從main()開始一樣，Cocos2d-x只是更複雜了一點點點
+### 入口
+你會看到我們前一步新建的專案裡頭有AppDelegate以及HelloWorldScene包含標頭檔等共四個文件
+遊戲引擎的入口就寫在AppDelegate.cpp文件中
+```
+//遊戲入口
+bool AppDelegate::applicationDidFinishLaunching() {
+    // 初始化 director
+    auto director = Director::getInstance();
+    auto glview = director->getOpenGLView();
+    if(!glview) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+        glview = GLViewImpl::createWithRect("Hello", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+#else
+        glview = GLViewImpl::create("Hello");
+#endif
+        director->setOpenGLView(glview);
+    }
+
+    // 顯示顯示FPS數
+    director->setDisplayStats(true);
+
+    // 設定FPS 如果不呼叫這個函式 默認刷新率就是60FPS
+    director->setAnimationInterval(1.0f / 60);
+
+    // 設定解析度
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    auto frameSize = glview->getFrameSize();
+
+    // 創建名為HahaWorld的scene
+    auto scene = HahaWorld::createScene();
+    //執行此scene
+    director->runWithScene(scene);
+
+    return true;
+}
+
+```
+由此程式碼你可以很清楚看到入口函式取得了一個Director class 並用此物件設定了FPS、解析度等定義
+最後再創造了一個scene物件，並run他
+
+
+### 結構
+看到這段Code會開始想Director跟Scene是什麼鬼東西
+在開始製作前，我們要先搞懂此引擎的最基本結構關係，不然無法前進  
+把遊戲想像成有個導演在作畫，作畫要把圖層分明確後續處理才會輕鬆
+分別是Director、Scene、Layer、Sprite
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 此章節會說明這些檔案的用途，以及一個修改一些碼讓我們可以自己輸出一張圖片，以感受一下檔案之間的關係
-我們只要先關注附圖上面中的AppDelegate與HelloWorldScene就行了
 
-## 2. Scene與Layer
+
+
+#### Layer
+
+
+#### Scene
+一個遊戲可以由多個Scene組成，他可以是主畫面選單、遊戲畫面、遊戲結束之類大方向的類型
+由Director去切換要使用哪一個Scene
+
+#### Director
+負責整個遊戲運鏡，可以知道一個遊戲只有一個Director，負責控制遊戲幀數、解析度等等相關設定
 ## 3. 按鍵控制
 ## 4. 計時器
 ## 5. 動畫
