@@ -90,6 +90,71 @@ bool HelloWorld::init()
 執行後的結果如附圖
 
 ### 類別關係
+Cocos2D-x的結構是由一個導演(Director)來控制切換不同場景(Scene)，某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個精靈(Sprite)
+如圖所示
+
+
+我會從低至高依序把它組合起來
+
+### 組合
+HelloWorldScene.cpp與HelloWorldScene.h檔案已經用不到了，我把他從專案內移除
+
+#### 精靈(Sprite) -> 圖層(Layer)
+Sprite在上一步驟已經建出來了，但bool HelloWorld::init()函式往上追，你會發現是他在Scene類別底下
+因此要新建一個父類別為Layer的類別出來, 把Sprite加進Layer裡
+
+
+##### LayerMgt.h
+```C++
+#ifndef __LAYER_MGT_H__
+#define __LAYER_MGT_H__
+
+#include "cocos2d.h"
+
+class MyLayer : public cocos2d::Layer
+{
+public:
+    static cocos2d::Layer* createScene();
+
+    virtual bool init();
+
+    // implement the "static create()" method manually
+    CREATE_FUNC(MyLayer);
+};
+
+#endif // __LAYER_MGT_H__
+```
+##### LayerMgt.cpp
+```C++
+#include "LayerMgt.h"
+
+USING_NS_CC;
+
+cocos2d::Layer* MyLayer::createLayer()
+{
+    return MyLayer::create();
+}
+
+bool MyLayer::init()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    Sprite* hero = Sprite::create("hero.png");
+    hero->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    this->addChild(hero, 0);
+
+    return true;
+}
+
+```
+
+
+
+
+
+
+
 看到這段Code會三個很陌生的類別，分別是Director、Scene以及Sprite
 在往下推進前，我們要先搞懂此引擎的最基本類別關係
 
