@@ -146,124 +146,47 @@ bool MyLayer::init()
 
     return true;
 }
-
 ```
 
+#### 圖層(Layer) -> 場景(Scene)
+##### SceneMgt.h
+```C++
+#ifndef __SCENE_MGT_H__
+#define __SCENE_MGT_H__
 
+#include "cocos2d.h"
 
+class MyScene : public cocos2d::Scene
+{
+public:
+    static cocos2d::Scene* createScene();
 
+    virtual bool init();
 
+    // implement the "static create()" method manually
+    CREATE_FUNC(MyScene);
+};
 
-
-看到這段Code會三個很陌生的類別，分別是Director、Scene以及Sprite
-在往下推進前，我們要先搞懂此引擎的最基本類別關係
-
-
-
-
-
-雖然很想直接開始寫程式，但寫之前還是有些東西必須要先知道
-至少你要知道你要從哪個點開始寫，就好像C語言要從main()開始一樣，Cocos2d-x只是更複雜了一點點點
-### 入口
-你會看到我們前一步新建的專案裡頭有AppDelegate以及HelloWorldScene包含標頭檔等共四個文件
-遊戲引擎的入口就寫在AppDelegate.cpp文件中
+#endif // __SCENE_MGT_H__
 ```
-//遊戲入口
-bool AppDelegate::applicationDidFinishLaunching() {
-    // 初始化 director
-    auto director = Director::getInstance();
-    auto glview = director->getOpenGLView();
-    if(!glview) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("Hello", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
-#else
-        glview = GLViewImpl::create("Hello");
-#endif
-        director->setOpenGLView(glview);
-    }
+##### SceneMgt.cpp
+```C++
+#include "SceneMgt.h"
+#include "LayerMgt.h"
 
-    // 顯示顯示FPS數
-    director->setDisplayStats(true);
+USING_NS_CC;
 
-    // 設定FPS 如果不呼叫這個函式 默認刷新率就是60FPS
-    director->setAnimationInterval(1.0f / 60);
+cocos2d::Scene* MyScene::createScene()
+{
+	return MyScene::create();
+}
 
-    // 設定解析度
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
-    auto frameSize = glview->getFrameSize();
+bool MyScene::init()
+{
+	Layer* layer = MyLayer::createLayer();
+	this->addChild(layer);
 
-    // 創建名為HahaWorld的scene
-    auto scene = HahaWorld::createScene();
-    //執行此scene
-    director->runWithScene(scene);
-
-    return true;
+	return true;
 }
 
 ```
-由此程式碼你可以很清楚看到入口函式取得了一個Director class 並用此物件設定了FPS、解析度等定義
-最後再創造了一個scene物件，並run他
-
-
-### 結構
-此引擎的結構是由一個導演(Director)來控制切換不同場景(Scene)，某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個角色Sprite
-
-
-看到這段Code會開始想Director跟Scene是什麼鬼東西  
-在開始製作前，我們要先搞懂此引擎的最基本結構關係，不然無法前進  
-把遊戲想像成有個導演(Director)在作畫，作畫要把圖層(Scene、Layer、Sprite)職責分配明確 後續處理才會輕鬆  
-整個框架會長得像如附圖這樣 從下到上介紹回去
-
-
-#### Sprite
-
-
-#### Layer
-
-
-#### Scene
-一個遊戲可以由多個Scene組成，他可以是主畫面選單、遊戲畫面、遊戲結束之類大方向的類型
-由Director去切換要使用哪一個Scene
-
-#### Director
-負責整個遊戲運鏡，可以知道一個遊戲只有一個Director，負責控制遊戲幀數、解析度等等相關設定
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-此章節會說明這些檔案的用途，以及一個修改一些碼讓我們可以自己輸出一張圖片，以感受一下檔案之間的關係
-
-
-
-
-
-
-
-
-
-
-
-### 代碼
-
-此章節會說明這些檔案的用途，以及一個修改一些碼讓我們可以自己輸出一張圖片，以感受一下檔案之間的關係
-我們只要先關注附圖上面中的AppDelegate與HelloWorldScene就行了
-
-## 2. Scene與Layer
-## 3. 按鍵控制
-## 4. 計時器
-## 5. 動畫
-## 6. 碰撞
-
