@@ -1,12 +1,18 @@
 # Cocos2d-x 4.0
 
-## 介紹
+## 何謂Cocos2d-x
+
+## 教學介紹
 在學這個引擎的時候前期很痛苦，
-在網路上中文的教學零零散散，常常講的東一塊西一塊，也沒付上完整的代碼
+在網路上中文的教學零零散散，常常講的東一塊西一塊，也不一定會付上完整的代碼
 初學者會很容易迷失方向，不知道那些碼到底要複製到哪邊才能正確RUN出來
 
-本教學不會著墨太多底層的細節，主要是想讓大家快速、有系統的完成一款遊戲
+本教學使用版本為Cocos2d-x 4.0，
+文章中不會著墨太多用法細節與底層觀念，主要是想讓大家快速、有系統的完成一款遊戲
 有了基本知識再去google會變得簡單很多
+建議大家從頭開始慢慢看，每章節算是有點小連貫，跳著看可能會看不懂
+
+老話一句，慢慢來比較快。
 
 ## 0. 事前準備
 
@@ -64,12 +70,13 @@ cocos2d-x C++環境架設就是這麼難用
 
 
 ## 1.加入角色
-上一章節我們單純執行官方寫好的Hello World 這一章節要加入一個角色進去我們的遊戲裡，並把整個環境整頓好  
+上一章節我們單純執行官方寫好的Hello World 這一章節要加入一個角色進去我們的遊戲裡  
 
 ###加入角色
-在專案主目錄中的.\Resources是預設的資源讀取路徑 Visual Studio如何管理資源路徑這邊就不提了  
-先把我們要加入的角上塞進資料夾裡
-接著去找bool HelloWorld::init()這個函式把裡面的內容移除並加入一個sprite進去  
+在專案主目錄中的.\Resources是預設的資源讀取路徑，Visual Studio如何設定資源路徑這邊就不提了  
+先把我們的庸者塞進資料夾裡
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%201%20-%20%E5%8A%A0%E5%85%A5%E8%A7%92%E8%89%B2/hero.png?raw=true)
+接著去找HelloWorld::init()這個函式把裡面的內容移除並加入一個Sprite<sup>[1]</sup>進去  
 ```
 bool HelloWorld::init()
 {
@@ -89,21 +96,25 @@ bool HelloWorld::init()
 ```
 執行後的結果如附圖
 
+### 備註
+[1]Sprite字面的意思為精靈，通常在2D遊戲中指的是角色或者地圖的元件等等的圖像，也有人直接稱這些圖像檔案叫精靈圖
+
 ## 2.組合階層
 這一章節我們來處理階層，讓大家了解一下基本階層的架構以及如何新增節點  
 ### 類別關係
-Cocos2D-x的標準結構是由一個導演(Director)來控制切換不同場景(Scene)，某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個精靈(Sprite)  
+Cocos2D-x的標準結構是由<font color=red>一位</font>導演(Director)來控制切換不同場景(Scene)，  
+某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個精靈(Sprite)  
 
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-1.png?raw=true)
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-1.png?raw=true)**圖2-1**
 
 
-但前一章節我們使用官方的Sample Code並把Sprite放進程式碼中，實際上的結構只寫到如圖2-2  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-2.png?raw=true)
+但前一章節我們使用官方的Sample Code並把Sprite放進程式碼中，實際上的結構只寫到如**圖2-2**  
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-2.png?raw=true)**圖2-2**
 
 Sample Code並沒有Layer層，而Sprite放進了Scene層，  
 雖然這樣寫也不會有什麼大問題，但往後遊戲規模一大，沒有好好的分配元件應有的位置很容易造成往後擴充功能困難  
-因此我們要做一下改變，變成如圖2-3  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-3.png?raw=true)
+因此我們要做一下改變，變成如**圖2-3**  
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-3.png?raw=true)**圖2-3**
 
 
 ### 組合
