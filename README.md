@@ -176,7 +176,47 @@ director->runWithScene()設定導演正在導的場景
 ### 編譯結果
 好！繞了一圈，跟上一章節編譯出一樣的畫面。
 
-## 3. 按鍵控制
+## 3. 鍵盤輸入
+我們常常會通過鍵盤去做一些遊戲內的控制，今天我們來處理鍵盤事件  
+
+### 鍵盤動作
+鍵盤事件分別有按下與放開兩個觸發點，我們先寫好
+void MyScene::pressKey(EventKeyboard::KeyCode keycode, Event* event)
+{
+    switch (keycode)
+    {
+    case EventKeyboard::KeyCode::KEY_ESCAPE:
+        Director::getInstance()->end();
+        break;
+    default:
+        log("Key with keycode %d pressed", keycode);
+        break;
+    }
+}
+
+void MyScene::releaseKey(EventKeyboard::KeyCode keycode, Event* event)
+{
+    switch (keycode)
+    {
+    default:
+        log("Key with keycode %d pressed", keycode);
+        break;
+    }
+}
+
+
+### 監聽鍵盤事件
+我們需要建立鍵盤監聽所觸發的函式以及把監聽者註冊進事件管理器中  
+```C++
+    auto* keyListener = EventListenerKeyboard::create();
+    keyListener->onKeyPressed = CC_CALLBACK_2(MyScene::pressKey, this);
+    keyListener->onKeyReleased = CC_CALLBACK_2(MyScene::releaseKey, this);
+    auto* dispatcher = Director::getInstance()->getEventDispatcher();
+    dispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+```
+### 編譯結果
+
+
 ## 4. 計時器
 ## 5. 動畫
 ## 6. 碰撞
