@@ -2,7 +2,7 @@
 
 
 ## 版本注意
-Cocos2d-x在3.14版之後的Sample Code有著不小的差異，普遍在網路查到的都是3.14版本之前
+Cocos2d-x在3.14版之後的Sample Code有著不小的差異，普遍在網路查到的都是3.14版本之前  
 而本教學使用的版本為4.0版  
 
 ## 前言
@@ -33,24 +33,24 @@ IDE我是使用地表最強編譯器，省得一些麻煩
 
 
 ### 架設環境
-1. **解壓縮Cocos2d-x 4.0**
+1. **解壓縮Cocos2d-x 4.0**  
 安裝的時候此根目錄相關資料夾會被寫進環境變數，所以解壓縮後的資料夾請放在你想安裝的位置  
 
-2. **使用CMD進入其根目錄，並輸入指令python setup.py**
+2. **使用CMD進入其根目錄，並輸入指令python setup.py**  
 記得要安裝的是python2.x的版本，
 python沒有亂搞的話，當看到   
 Please restart the terminal or restart computer to make added system variables take effect就是安裝成功了  
 
-3. **建立cocos2d-x cpp專案**
+3. **建立cocos2d-x cpp專案**  
 安裝完成，py檔已經幫你把環境變數都建好，接著在CMD輸入  
 `cocos new HelloWorld -l cpp -p com.helloworld -d C:\Users\%username%\Desktop` <sup>[1]</sup>  
 這邊我預設的輸出路徑為桌面，完成後在桌面可以看到Haha的資料夾  
 
-4. **編譯出sln檔**
+4. **編譯出sln檔**  
 建立好的文件沒有VS可以用的檔案，先進到專案目錄的proj.win32資料夾  
 在CMD裡面輸入`cmake .. -A win32`可以編譯出VS的專案檔；sln檔  
 
-5. **進入專案並編譯後會發生錯誤**，會看到
+5. **進入專案並編譯後會發生錯誤**，會看到  
 ![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-1.png?raw=true)
 Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.  
 原因是要設定欲編譯的program，選擇HelloWorld專案右鍵點選set as startup project  
