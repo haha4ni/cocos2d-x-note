@@ -1,19 +1,20 @@
 # Cocos2d-x 4.0
 
-## 何謂Cocos2d-x
 
-## 教學介紹
-在學這個引擎的時候前期很痛苦，
-在網路上中文的教學零零散散，常常講的東一塊西一塊，也不一定會付上完整的代碼
-初學者會很容易迷失方向，不知道那些碼到底要複製到哪邊才能正確RUN出來
+## 版本注意
+Cocos2d-x在3.14版之後的Sample Code有著不小的差異，普遍在網路查到的都是3.14版本之前
+而本教學使用的版本為4.0版  
 
-本教學使用版本為Cocos2d-x 4.0，
-文章中不會著墨太多用法細節與底層觀念，主要是想讓大家快速、有系統的完成一款遊戲
-有了基本知識再去google會變得簡單很多
-建議大家從頭開始慢慢看，每章節算是有點小連貫，跳著看可能會看不懂
+## 前言
+在學這個引擎的時候前期很痛苦，在網路上中文的教學零零散散，  
+也不一定會付上完整的代碼，不知道那些碼到底要複製到哪邊才能正確RUN出來，初學者會很容易迷失方向  
+希望看完本文章可以讓你快入上手，有了基本知識再去google會變得簡單很多  
 
-老話一句，慢慢來比較快。
+建議大家從頭開始慢慢看，每章節算是有點小連貫，跳著看可能會看不懂  
+慢慢來比較快。  
 
+
+# 基礎篇
 ## 0. 事前準備
 
 ### 準備工具
@@ -32,31 +33,35 @@ IDE我是使用地表最強編譯器，省得一些麻煩
 
 
 ### 架設環境
-1. 解壓縮Cocos2d-x 4.0  
-安裝的時候此目錄相關資料夾會被寫進環境變數，所以挑個喜歡的目錄解壓縮  
+1. **解壓縮Cocos2d-x 4.0**
+安裝的時候此根目錄相關資料夾會被寫進環境變數，所以解壓縮後的資料夾請放在你想安裝的位置  
 
-2. 使用CMD進入其根目錄，並輸入指令python setup.py  
-python沒有亂搞的話就會順利安裝完成  
-當看到Please restart the terminal or restart computer to make added system variables take effect就是安裝成功了  
+2. **使用CMD進入其根目錄，並輸入指令python setup.py**
+記得要安裝的是python2.x的版本，
+python沒有亂搞的話，當看到   
+Please restart the terminal or restart computer to make added system variables take effect就是安裝成功了  
 
-3. 建立cocos2d-x cpp專案  
+3. **建立cocos2d-x cpp專案**
 安裝完成，py檔已經幫你把環境變數都建好，接著在CMD輸入  
-cocos new Hello -l cpp -p com.helloworld -d \Users\%username%\Desktop <sup>[1]</sup>  
+`cocos new HelloWorld -l cpp -p com.helloworld -d C:\Users\%username%\Desktop` <sup>[1]</sup>  
+這邊我預設的輸出路徑為桌面，完成後在桌面可以看到Haha的資料夾  
 
-4. 編譯出sln檔  
-建立好的專案沒有VS的檔案可以用，進到專案目錄的proj.win32資料夾  
-在CMD裡面輸入cmake .. -A win32可以編譯出VS的專案檔sln  
+4. **編譯出sln檔**
+建立好的文件沒有VS可以用的檔案，先進到專案目錄的proj.win32資料夾  
+在CMD裡面輸入`cmake .. -A win32`可以編譯出VS的專案檔；sln檔  
 
-5. 進入專案並編譯後會發生錯誤，會看到  
+5. **進入專案並編譯後會發生錯誤**，會看到
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-1.png?raw=true)
 Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.  
-原因是要要設定開始的program，把圖中該檔案右鍵點選set as startup project  
+原因是要設定欲編譯的program，選擇HelloWorld專案右鍵點選set as startup project  
 接著重新編譯一次就正式完成環境架設了  
 
-### Hello World
-你會看到圖中的畫面  
+### 編譯結果
+以上步驟都有成功完成後的執行結果  
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-3.png?raw=true)
 
 
-cocos2d-x C++環境架設就是這麼難用  
+cocos2d-x C++架環境就是這麼難搞  
 
 ### 備註
 [1] 在CMD輸入cocos new -h可以看到cocos new參數詳細的用途, 寫得很詳細這邊就不多加補充  
@@ -174,13 +179,14 @@ director->runWithScene()設定導演正在導的場景
 ```
 
 ### 編譯結果
-好！繞了一圈，跟上一章節編譯出一樣的畫面。
+好！繞了一圈，跟上一章節編譯出一樣的畫面。  
 
 ## 3. 鍵盤輸入
 我們常常會通過鍵盤去做一些遊戲內的控制，今天我們來處理鍵盤事件  
 
 ### 鍵盤動作
-鍵盤事件分別有按下與放開兩個觸發點，我們先寫好
+鍵盤事件分別有按下與放開兩個觸發點，我們先寫好  
+```C++
 void MyScene::pressKey(EventKeyboard::KeyCode keycode, Event* event)
 {
     switch (keycode)
@@ -203,6 +209,7 @@ void MyScene::releaseKey(EventKeyboard::KeyCode keycode, Event* event)
         break;
     }
 }
+```
 
 
 ### 監聽鍵盤事件
@@ -220,5 +227,10 @@ void MyScene::releaseKey(EventKeyboard::KeyCode keycode, Event* event)
 ## 4. 計時器
 ## 5. 動畫
 ## 6. 碰撞
+
+## 7. 物理世界
+
+# 實戰篇
+## 1. 建構主角
 
 
