@@ -111,7 +111,7 @@ bool HelloWorld::init()
 你先了解到我們目前所在的函式，其物件就是一個Scene，我們把圖片加進它的節點裡
 
 ### 編譯結果
-//TO DO
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%201%20-%20%E5%8A%A0%E5%85%A5%E8%A7%92%E8%89%B2/1-1.png?raw=true)
 
 
 
@@ -127,6 +127,8 @@ bool HelloWorld::init()
 ### 類別關係
 Cocos2D-x的標準結構是由<font color=red>一位</font>導演(Director)來控制切換不同場景(Scene)，  
 某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個精靈(Sprite)  
+
+遊戲引擎會根據節點
 
 ![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-%20%E7%B5%84%E5%90%88%E9%9A%8E%E5%B1%A4/2-1.png?raw=true)**圖2-1**
 
@@ -145,17 +147,35 @@ Sample Code並沒有Layer層，而Sprite放進了Scene層，
 
 ##### 精靈(Sprite) -> 圖層(Layer)
 Sprite在上一步驟已經建出來了，但bool HelloWorld::init()函式往上追，你會發現是他在Scene類別底下  
-因此要新建一個父類別為Layer的類別出來, 把Sprite加進Layer裡  
+因此要在Scene與Sprite之間新建一個繼承Layer的類別出來, 把原本在Scene的Sprite挪進Layer裡  
 ```C++
-//File:LayerMgt.cpp
+#ifndef __HELLOWORLD_LAYER_H__
+#define __HELLOWORLD_LAYER_H__
 
-bool MyLayer::init()
+#include "cocos2d.h"
+
+class HahaWorldLayer : public cocos2d::Layer
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+public:
+    bool init();
 
+    CREATE_FUNC(HelloWorldLayer);
+};
+
+#endif // __HELLOWORLD_LAYER_H__
+```
+
+```C++
+bool HelloWorldLayer::init()
+{
+    //取得視窗的大小
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    //加入一個Sprite物件
     Sprite* hero = Sprite::create("hero.png");
-    hero->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    hero->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    
+    //加進Scene節點內
     this->addChild(hero, 0);
 
     return true;
@@ -164,13 +184,14 @@ bool MyLayer::init()
 建立一個名叫MyLayer的Layer類別，在初始化的時候建立Sprite並放入MyLayer的節點  
 
 ##### 圖層(Layer) -> 場景(Scene)
-同樣的套路再來一次，把圖層放進場景
+同樣的套路再來一次，把Layer放進Scene裡，
+這邊我把類別名稱從HahaWorld改成了HahaWorldLayer
+也順便把不必要的函式通通砍掉了，只留了init()與CREATE_FUNC()
+把剛剛建的HahaWorldLayer塞進Scene的子節點裡
 ```C++
-//SceneMgt.cpp
-
-bool MyScene::init()
+bool HelloWorldScene::init()
 {
-    Layer* layer = MyLayer::createLayer();
+    Layer* layer = HahaWorldLayer::create();
     this->addChild(layer);
 
     return true;
@@ -181,14 +202,14 @@ bool MyScene::init()
 導演這物件只有一個，範例碼已經幫我們開好了  
 你可以到AppDelegate.cpp中的AppDelegate::applicationDidFinishLaunching()找到他  
 director->runWithScene()設定導演正在導的場景  
-把我們寫的MyScene建立出來去替換原本範例碼的MyScene::createScene()  
+Scene的名稱被我們修改過了，要改成HelloWorldScene::createScene()去替換原本範例碼的HelloWorld::createScene()  
 ```C++
 //AppDelegate.cpp
 
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = MyScene::createScene();
+    auto scene = HelloWorldScene::create();
 
     // run
     director->runWithScene(scene);
@@ -198,9 +219,10 @@ director->runWithScene()設定導演正在導的場景
 
 ### 編譯結果
 好！繞了一圈，跟上一章節編譯出一樣的畫面。  
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-%20%E7%B5%84%E5%90%88%E9%9A%8E%E5%B1%A4/2-4.png?raw=true)
 
 
-## 2. 鍵盤輸入
+## 3. 鍵盤輸入
 我們常常會通過鍵盤去做一些遊戲內的控制，本章節將會透過鍵盤讓我們的傭者可以在不同位置上出現  
 
 ### 鍵盤動作
