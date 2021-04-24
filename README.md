@@ -51,14 +51,14 @@ Please restart the terminal or restart computer to make added system variables t
 在CMD裡面輸入`cmake .. -A win32`可以編譯出VS的專案檔；sln檔  
 
 5. **進入專案並編譯後會發生錯誤**，會看到  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-1.png?raw=true)
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-1.png?raw=true)  
 Unable to start program ‘X:\PATH_TO_TEST\proj.win32\Debug\ALL_BUILD’.  
 原因是要設定欲編譯的program，選擇HelloWorld專案右鍵點選set as startup project  
 接著重新編譯一次就正式完成環境架設了  
 
 ### 編譯結果
 以上步驟都有成功完成後的執行結果  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-3.png?raw=true)
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%200%20-%20%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99/0-3.png?raw=true)  
 
 
 cocos2d-x C++架環境就是這麼難搞  
@@ -107,8 +107,8 @@ bool HelloWorld::init()
 }
 ```
 
-要把圖片畫到視窗上，需指定一塊畫布(Scene/Layer)，
-你先了解到我們目前所在的函式，其物件就是一個Scene，我們把圖片加進它的節點裡
+要把圖片畫到視窗上，需指定一塊畫布(Scene/Layer)，  
+你先了解到我們目前所在的函式，其物件就是一個Scene，我們把圖片加進它的節點裡  
 
 ### 編譯結果
 ![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%201%20-%20%E5%8A%A0%E5%85%A5%E8%A7%92%E8%89%B2/1-1.png?raw=true)
@@ -120,7 +120,7 @@ bool HelloWorld::init()
 ### 編譯結果
 
 ## 2.組合階層
-這一章節我們來處理階層，先了解一下基本階層的架構以及如何新增節點  .
+這一章節我們來處理階層，先**了解基本階層的架構以及如何新增節點**  
 篇幅關係我不會特別講解.h檔裡面定義了什麼，基本上一看就懂；特別逐字說明顯得有點冗長  
 大家先載下我的Source Code，把檔案都加進`.\Classes`資料夾內並且覆蓋  
 
