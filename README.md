@@ -3,7 +3,7 @@
 
 ## 版本注意
 Cocos2d-x在3.14版之後的Sample Code有著不小的差異，普遍在網路查到的都是3.14版本之前  
-而本教學使用的版本為4.0版  
+而本教學使用的版本為4.0版，並且為PC版的教學，使用在行動裝置可能會有些取誤差  
 
 ## 前言
 在學這個引擎的時候前期很痛苦，在網路上中文的教學零零散散，  
@@ -74,57 +74,75 @@ cocos2d-x C++架環境就是這麼難搞
 
 
 
-## 1.加入角色
+## 1. 顯示圖片
 上一章節我們單純執行官方寫好的Hello World 這一章節要加入一個角色進去我們的遊戲裡  
 
-###加入角色
+### 圖片路徑
 在專案主目錄中的.\Resources是預設的資源讀取路徑，Visual Studio如何設定資源路徑這邊就不提了  
-先把我們的庸者塞進資料夾裡
+先把我們的庸者塞進資料夾裡  
 ![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%201%20-%20%E5%8A%A0%E5%85%A5%E8%A7%92%E8%89%B2/hero.png?raw=true)
-接著去找HelloWorld::init()這個函式把裡面的內容移除並加入一個Sprite<sup>[1]</sup>進去  
-```
+
+### 加入精靈(Sprite)
+Sprite字面的意思為精靈，通常在2D遊戲中指的是角色或者地圖的元件等等的圖像，也有人直接稱這些圖像檔案叫精靈圖  
+而一個Sprite物件可以理解成是一張圖片的載體，  
+
+找到HelloWorld::init()這個函式，暫且把這個函式當作程式入口，遊戲啟動時這個函式會被執行一次
+把裡面的內容移除並加入一個Sprite  
+```C+++
 bool HelloWorld::init()
 {
     // 確認有無初始化過Scene
     if ( !Scene::init() )
-    {
         return false;
-    }
     
+    //取得視窗的大小
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    //加入一個Sprite物件
     Sprite* hero = Sprite::create("hero.png");
-    hero->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    hero->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    
+    //加進Scene節點內
     this->addChild(hero, 0);
 }
 ```
-執行後的結果如附圖
 
-### 備註
-[1]Sprite字面的意思為精靈，通常在2D遊戲中指的是角色或者地圖的元件等等的圖像，也有人直接稱這些圖像檔案叫精靈圖
+要把圖片畫到視窗上，需指定一塊畫布(Scene/Layer)，
+你先了解到我們目前所在的函式，其物件就是一個Scene，我們把圖片加進它的節點裡
+
+### 編譯結果
+//TO DO
+
+
+
+
+
+### 編譯結果
 
 ## 2.組合階層
-這一章節我們來處理階層，讓大家了解一下基本階層的架構以及如何新增節點  
+這一章節我們來處理階層，先了解一下基本階層的架構以及如何新增節點  .
+篇幅關係我不會特別講解.h檔裡面定義了什麼，基本上一看就懂；特別逐字說明顯得有點冗長  
+大家先載下我的Source Code，把檔案都加進`.\Classes`資料夾內並且覆蓋  
+
 ### 類別關係
 Cocos2D-x的標準結構是由<font color=red>一位</font>導演(Director)來控制切換不同場景(Scene)，  
 某個場景可以包含很多的圖層(Layer)，某個圖層裡會包含很多個精靈(Sprite)  
 
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-1.png?raw=true)**圖2-1**
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-%20%E7%B5%84%E5%90%88%E9%9A%8E%E5%B1%A4/2-1.png?raw=true)**圖2-1**
 
 
 但前一章節我們使用官方的Sample Code並把Sprite放進程式碼中，實際上的結構只寫到如**圖2-2**  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-2.png?raw=true)**圖2-2**
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-%20%E7%B5%84%E5%90%88%E9%9A%8E%E5%B1%A4/2-2.png?raw=true)**圖2-2**
 
 Sample Code並沒有Layer層，而Sprite放進了Scene層，  
 雖然這樣寫也不會有什麼大問題，但往後遊戲規模一大，沒有好好的分配元件應有的位置很容易造成往後擴充功能困難  
 因此我們要做一下改變，變成如**圖2-3**  
-![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-/2-3.png?raw=true)**圖2-3**
+![image](https://github.com/haha4ni/cocos2d-x-note/blob/master/Lesson%202%20-%20%E7%B5%84%E5%90%88%E9%9A%8E%E5%B1%A4/2-3.png?raw=true)**圖2-3**
 
 
 ### 組合
-我會從低至高依序把它組合起來
-HelloWorldScene.cpp與HelloWorldScene.h檔案已經用不到了，我把他從專案內移除  
+我會從低至高依序把它組合起來，  
+
 ##### 精靈(Sprite) -> 圖層(Layer)
 Sprite在上一步驟已經建出來了，但bool HelloWorld::init()函式往上追，你會發現是他在Scene類別底下  
 因此要新建一個父類別為Layer的類別出來, 把Sprite加進Layer裡  
@@ -181,8 +199,9 @@ director->runWithScene()設定導演正在導的場景
 ### 編譯結果
 好！繞了一圈，跟上一章節編譯出一樣的畫面。  
 
-## 3. 鍵盤輸入
-我們常常會通過鍵盤去做一些遊戲內的控制，今天我們來處理鍵盤事件  
+
+## 2. 鍵盤輸入
+我們常常會通過鍵盤去做一些遊戲內的控制，本章節將會透過鍵盤讓我們的傭者可以在不同位置上出現  
 
 ### 鍵盤動作
 鍵盤事件分別有按下與放開兩個觸發點，我們先寫好  
@@ -210,8 +229,6 @@ void MyScene::releaseKey(EventKeyboard::KeyCode keycode, Event* event)
     }
 }
 ```
-
-
 ### 監聽鍵盤事件
 我們需要建立鍵盤監聽所觸發的函式以及把監聽者註冊進事件管理器中  
 ```C++
@@ -221,9 +238,6 @@ void MyScene::releaseKey(EventKeyboard::KeyCode keycode, Event* event)
     auto* dispatcher = Director::getInstance()->getEventDispatcher();
     dispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 ```
-### 編譯結果
-
-
 ## 4. 計時器
 ## 5. 動畫
 ## 6. 碰撞
